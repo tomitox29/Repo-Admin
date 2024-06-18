@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    image: tomitox/prestacron
+    ports:
+      - "80:80"
+    volumes:
+      - /data/prestashop:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - prestashop_network
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: prestashop
+      MYSQL_USER: prestashopuser
+      MYSQL_PASSWORD: prestashoppassword
+    volumes:
+      - /data/prestashop_DB:/var/lib/mysql
+    networks:
+      - prestashop_network
+
+networks:
+  prestashop_network:
+    driver: bridge
